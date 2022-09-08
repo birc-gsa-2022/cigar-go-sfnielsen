@@ -51,11 +51,15 @@ func EditsToCigar(edits string) (cigar string) {
 		if cur == v {
 			app++
 		}
-		if cur != v || i == len(edits)-1 {
+		if cur != v {
 			sb.WriteString(fmt.Sprint(app))
 			sb.WriteByte(cur)
 			cur = v
 			app = 1
+		}
+		if i == len(edits)-1 {
+			sb.WriteString(fmt.Sprint(app))
+			sb.WriteByte(cur)
 		}
 	}
 	cigar = sb.String()
