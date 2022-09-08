@@ -12,8 +12,7 @@ package gsa
 //  Returns:
 //      The edit operations the CIGAR string describes.
 func CigarToEdits(cigar string) (edits string) {
-	edits = ""
-	return edits
+
 }
 
 // Encode a sequence of edits as a CIGAR.

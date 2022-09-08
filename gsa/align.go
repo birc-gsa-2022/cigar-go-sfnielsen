@@ -4,6 +4,8 @@
 
 package gsa
 
+import "strings"
+
 // Align two sequences from a sequence of edits.
 //
 //  Args:
@@ -14,8 +16,37 @@ package gsa
 //  Returns:
 //      The two rows in the pairwise alignment
 func Align(p, q, edits string) (pRow, qRow string) {
-	pRow, qRow = "", ""
+
+	var sb_p, sb_q strings.Builder
+	var idx_p, idx_q int
+
+	mid := []rune("MID")
 	// Align p and q based on edits
+	for _, v := range edits {
+		if v == mid[0] {
+			sb_p.WriteString(string(p[idx_p]))
+			sb_q.WriteString(string(q[idx_q]))
+			idx_p++
+			idx_q++
+			continue
+		}
+		if v == mid[1] {
+			sb_q.WriteByte(q[idx_q])
+			sb_p.WriteString("-")
+			idx_q++
+			continue
+		}
+		if v == mid[2] {
+			sb_p.WriteByte(p[idx_p])
+			sb_q.WriteString("-")
+			idx_p++
+
+		}
+	}
+
+	pRow = sb_p.String()
+	qRow = sb_q.String()
+
 	return pRow, qRow
 }
 
