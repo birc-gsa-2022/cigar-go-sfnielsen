@@ -5,6 +5,7 @@
 package gsa
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -38,6 +39,25 @@ func CigarToEdits(cigar string) (edits string) {
 //  Returns:
 //      The CIGAR encoding of edits.
 func EditsToCigar(edits string) (cigar string) {
-	cigar = ""
+	var sb strings.Builder
+	var cur byte
+	app := 0
+	for i, v := range []byte(edits) {
+		if i == 0 {
+			cur = v
+			app = 1
+			continue
+		}
+		if cur == v {
+			app++
+		}
+		if cur != v || i == len(edits)-1 {
+			sb.WriteString(fmt.Sprint(app))
+			sb.WriteByte(cur)
+			cur = v
+			app = 1
+		}
+	}
+	cigar = sb.String()
 	return cigar
 }
