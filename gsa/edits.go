@@ -54,5 +54,13 @@ func GetEdits(p, q string) (gapFreeP, gapFreeQ, edits string) {
 //  Returns:
 //      The distance from p to x[i:?] described by edits
 func EditDist(p, x string, i int, edits string) int {
-	return -1
+	pRow, xRow := LocalAlign(p, x, i, edits)
+	result := 0
+	for i := 0; i < len(pRow); i++ {
+		if pRow[i] != xRow[i] {
+			result++
+		}
+	}
+
+	return result
 }
