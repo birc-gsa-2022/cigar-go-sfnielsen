@@ -4,6 +4,8 @@
 
 package gsa
 
+import "strings"
+
 // Extract the edit operations from a pairwise alignment.
 //
 //  Args:
@@ -14,7 +16,29 @@ package gsa
 //      The two strings without gaps and the list of edit operations
 //      as a string.
 func GetEdits(p, q string) (gapFreeP, gapFreeQ, edits string) {
-	gapFreeP, gapFreeQ, edits = "", "", ""
+	var sb_p, sb_q, sb_edits strings.Builder
+
+	for i := 0; i < len(p); i++ {
+
+		if p[i] == []byte("-")[0] {
+			sb_edits.WriteString("I")
+			sb_q.WriteByte(q[i])
+			continue
+		}
+		if q[i] == []byte("-")[0] {
+			sb_edits.WriteString("D")
+			sb_p.WriteByte(p[i])
+			continue
+		}
+		sb_edits.WriteString("M")
+		sb_p.WriteByte(p[i])
+		sb_q.WriteByte(q[i])
+
+	}
+	edits = sb_edits.String()
+	gapFreeP = sb_p.String()
+	gapFreeQ = sb_q.String()
+
 	return gapFreeP, gapFreeQ, edits
 }
 
