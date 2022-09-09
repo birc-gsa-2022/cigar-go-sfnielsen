@@ -63,5 +63,6 @@ func Align(p, q, edits string) (pRow, qRow string) {
 func LocalAlign(p, x string, i int, edits string) (pRow, xRow string) {
 	pRow, xRow = "", ""
 	// Align p and q based on edits
+	pRow, xRow = Align(p, x[i:], edits)
 	return pRow, xRow
 }
